@@ -15,10 +15,25 @@
         <span class="material-icons">settings</span>
         <span>Settings</span>
       </a>
-      <a href="#" class="text-white hover:text-blue-400 flex items-center space-x-1">
-        <span class="material-icons">notifications</span>
-        <span>Notification</span>
-      </a>
+     <div class="relative inline-block">
+        <a href="#" id="notificationBtn" class="text-white hover:text-blue-400 flex items-center space-x-1">
+          <span class="material-icons">notifications</span>
+          <span>Notification</span>
+          <span id="TotalVisitUnseen" class="bg-red-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+            0
+          </span>
+        </a>
+
+        <!-- Notification Popup -->
+        <div id="notificationPopup" class="hidden absolute left-0 mt-1 bg-white shadow-lg rounded-lg w-72 p-4 z-50">
+          <h3 class="font-bold text-gray-800 mb-2">Notifications</h3>
+          <div id="notificationContent" class="text-sm text-gray-700 space-y-2">
+            <p>No new notifications</p>
+          </div>
+        </div>
+      </div>
+
+
       <a href="logout" class="text-white hover:text-red-400 flex items-center space-x-1">
         <span class="material-icons">logout</span>
         <span>Log Out</span>
@@ -26,3 +41,7 @@
     </div>
   </div>
 </nav>
+
+
+
+

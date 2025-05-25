@@ -49,6 +49,54 @@ public function get_all_user()
 
 
 
+public function get_count_report($student_id) {
+    $sql = "
+        SELECT 
+            COUNT(*) AS TotalVisit,
+            u1.user_fullname AS ViewedUser,
+            u2.user_fullname AS ViewerUser,
+            MAX(view_logs.view_date) AS view_date
+        FROM view_logs
+        LEFT JOIN user u1 ON u1.user_id = view_logs.viewed_id
+        LEFT JOIN user u2 ON u2.user_id = view_logs.view_by_id
+        WHERE view_logs.viewed_id = ? AND view_seen = '0'
+        GROUP BY u1.user_fullname, u2.user_fullname
+        ORDER BY view_date DESC
+        LIMIT 1
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+        // Handle error properly, maybe throw exception or return false
+        return false;
+    }
+
+    $stmt->bind_param("i", $student_id);
+
+    if ($stmt->execute()) {
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result;
+    } else {
+        return false;
+    }
+}
+
+
+public function mark_report_as_seen($user_id) {
+    $stmt = $this->conn->prepare("UPDATE view_logs SET view_seen = '1' WHERE viewed_id = ?");
+    if (!$stmt) {
+        // handle error here
+        return false;
+    }
+    $stmt->bind_param("i", $user_id);
+    return $stmt->execute();
+}
+
+
+
+
+
 public function record_viewing($viewed, $view_by)
 {
     $stmt = $this->conn->prepare("INSERT INTO view_logs (viewed_id, view_by_id) VALUES (?, ?)");
