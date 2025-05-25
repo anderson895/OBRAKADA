@@ -26,37 +26,41 @@ $all_user = $db->get_all_user();
           <?php if ($user_id != $user['user_id']): ?>
 
   <article class="bg-white rounded-lg shadow-md mb-6 p-6 hover:shadow-lg transition-shadow">
-    <header class="flex items-center gap-4 mb-4">
-      <?php 
-      if (!empty($user['user_profile_pict'])): ?>
-        <img
-          src="../assets/upload/<?= htmlspecialchars($user['user_profile_pict']) ?>"
-          alt="<?= htmlspecialchars($user['user_fullname']) ?>"
-          class="w-16 h-16 rounded-full object-cover"
-        />
-      <?php else: ?>
-        <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold text-xl uppercase">
-          <?= strtoupper(substr($user['user_fullname'], 0, 1)) ?>
-        </div>
-      <?php endif; ?>
+    
+  <a href="portfolio?user_id=<?= $user['user_id'] ?>">
+      <header class="flex items-center gap-4 mb-4">
+          <?php 
+          if (!empty($user['user_profile_pict'])): ?>
+            <img
+              src="../assets/upload/<?= htmlspecialchars($user['user_profile_pict']) ?>"
+              alt="<?= htmlspecialchars($user['user_fullname']) ?>"
+              class="w-16 h-16 rounded-full object-cover"
+            />
+          <?php else: ?>
+            <div class="w-16 h-16 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold text-xl uppercase">
+              <?= strtoupper(substr($user['user_fullname'], 0, 1)) ?>
+            </div>
+          <?php endif; ?>
 
-      <div class="flex-1">
-        <h3 class="text-xl font-semibold text-gray-900"><?= htmlspecialchars(ucfirst($user['user_fullname'])) ?></h3>
-        <?php
-        $profTitlesRaw = $user['user_professional_title'] ?? null;
-        if (!empty($profTitlesRaw)) {
-            $titles = json_decode($profTitlesRaw, true);
-            if (is_array($titles) && count($titles) > 0): ?>
-              <div class="flex flex-wrap gap-2 mt-1">
-                <?php foreach ($titles as $title): ?>
-                  <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full"><?= htmlspecialchars(ucfirst($title)) ?></span>
-                <?php endforeach; ?>
-              </div>
-            <?php endif;
-        } ?>
-      </div>
-    </header>
-
+          <div class="flex-1">
+          
+            <h3 class="text-xl font-semibold text-gray-900"><?= htmlspecialchars(ucfirst($user['user_fullname'])) ?></h3>
+            
+            <?php
+            $profTitlesRaw = $user['user_professional_title'] ?? null;
+            if (!empty($profTitlesRaw)) {
+                $titles = json_decode($profTitlesRaw, true);
+                if (is_array($titles) && count($titles) > 0): ?>
+                  <div class="flex flex-wrap gap-2 mt-1">
+                    <?php foreach ($titles as $title): ?>
+                      <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full"><?= htmlspecialchars(ucfirst($title)) ?></span>
+                    <?php endforeach; ?>
+                  </div>
+                <?php endif;
+            } ?>
+          </div>
+        </header>
+    </a>
     <p class="text-gray-700 mb-4"><?= htmlspecialchars($user['user_bio'] ?? 'No bio available.') ?></p>
 
     <section>

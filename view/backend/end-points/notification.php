@@ -16,20 +16,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $report = $db->get_count_report($session_account['user_id']); 
+    $reports = $db->get_count_report($session_account['user_id']); 
 
-    if ($report && !empty($report)) {
+    if ($reports && !empty($reports)) {
+        $totalVisit = 0;
+        foreach ($reports as $row) {
+            $totalVisit += intval($row['TotalVisit']);
+        }
+
         echo json_encode([
-            'TotalVisit' => intval($report['TotalVisit']),   // use actual count
-            'ViewedUser' => $report['ViewedUser'],           // keys as returned by your method
-            'ViewerUser' => $report['ViewerUser'],
-            'view_date' => $report['view_date']
+            'TotalVisit' => $totalVisit,
+            'reports' => $reports
         ]);
     } else {
         echo json_encode([
-            'TotalVisit' => 0
+            'TotalVisit' => 0,
+            'reports' => []
         ]);
     }
     exit;
+
 }
 ?>

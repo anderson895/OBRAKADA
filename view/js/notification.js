@@ -9,10 +9,8 @@ const getNotificationCount = () => {
     success: function(response) {
       console.log(response);
 
-      let TotalVisitUnseen = response.TotalVisit;
-      let ViewedUser = response.ViewedUser;
-      let ViewerUser = response.ViewerUser;
-      let view_date = response.view_date;
+      const TotalVisitUnseen = response.TotalVisit;
+      const reports = response.reports || [];
 
       // Update badge count
       $('#TotalVisitUnseen').text(TotalVisitUnseen);
@@ -25,13 +23,19 @@ const getNotificationCount = () => {
 
       // Only update notification content if popup is hidden
       if ($('#notificationPopup').hasClass('hidden')) {
-        if (TotalVisitUnseen > 0) {
-          $('#notificationContent').html(`
-            <div>
-              <p><strong>${ViewerUser}</strong> viewed <strong>${ViewedUser}</strong>'s profile.</p>
-              <p class="text-xs text-gray-500">${view_date}</p>
-            </div>
-          `);
+        if (reports.length > 0) {
+          let contentHtml = '';
+
+          reports.forEach(report => {
+            contentHtml += `
+              <div class="mb-2 border-b pb-2">
+                <p><strong>${report.ViewerUser}</strong> viewed <strong>${report.ViewedUser}</strong>'s profile.</p>
+                <p class="text-xs text-gray-500">${report.view_date}</p>
+              </div>
+            `;
+          });
+
+          $('#notificationContent').html(contentHtml);
         } else {
           $('#notificationContent').html('<p>No new notifications</p>');
         }
@@ -42,6 +46,7 @@ const getNotificationCount = () => {
     }
   });
 };
+
 
   // Run initially and every 3 seconds
   getNotificationCount();

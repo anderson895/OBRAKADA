@@ -61,7 +61,9 @@ public function check_account($id) {
 
 public function get_all_user()
 {
-    $stmt = $this->conn->prepare("SELECT * FROM user");
+    $stmt = $this->conn->prepare("SELECT * FROM user
+    ORDER BY user_id DESC
+    ");
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -79,35 +81,33 @@ public function get_all_user()
 
 
 
-
 public function get_count_report($student_id) {
     $sql = "
-        SELECT 
-            COUNT(*) AS TotalVisit,
-            u1.user_fullname AS ViewedUser,
-            u2.user_fullname AS ViewerUser,
-            MAX(view_logs.view_date) AS view_date
-        FROM view_logs
-        LEFT JOIN user u1 ON u1.user_id = view_logs.viewed_id
-        LEFT JOIN user u2 ON u2.user_id = view_logs.view_by_id
-        WHERE view_logs.viewed_id = ? AND view_seen = '0'
-        GROUP BY u1.user_fullname, u2.user_fullname
-        ORDER BY view_date DESC
-        LIMIT 1
+       SELECT 
+    COUNT(DISTINCT CASE WHEN view_seen = '0' THEN view_by_id END) AS TotalVisit,
+    u1.user_fullname AS ViewedUser,
+    u2.user_fullname AS ViewerUser,
+    MAX(view_logs.view_date) AS view_date
+FROM view_logs
+LEFT JOIN user u1 ON u1.user_id = view_logs.viewed_id
+LEFT JOIN user u2 ON u2.user_id = view_logs.view_by_id
+WHERE view_logs.viewed_id = ?
+GROUP BY u1.user_fullname, u2.user_fullname
+ORDER BY view_date DESC
+
     ";
 
     $stmt = $this->conn->prepare($sql);
 
     if (!$stmt) {
-        // Handle error properly, maybe throw exception or return false
         return false;
     }
 
     $stmt->bind_param("i", $student_id);
 
     if ($stmt->execute()) {
-        $result = $stmt->get_result()->fetch_assoc();
-        return $result;
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $result;  // Return array of rows
     } else {
         return false;
     }
