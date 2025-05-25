@@ -8,8 +8,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 </head>
 <body class="font-sans">
+
+ <?php include "function/PageSpinner.php"; ?>
+
   <div class="flex min-h-screen">
     <!-- Left Panel -->
    <div class="w-1/2 bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col justify-center items-center p-16 shadow-lg">

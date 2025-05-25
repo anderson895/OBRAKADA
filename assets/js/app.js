@@ -32,7 +32,6 @@
 
   $("#registerForm").submit(function (e) { 
     e.preventDefault();
-    $('.spinner').show();
 
     var fullname = $("#fullname").val();
     
@@ -41,36 +40,37 @@
     var confirmPassword = $("#confirm_password").val();
 
     // Basic validation
-    if (fname === '') {
+    if (fullname === '') {
         alertify.error("First Name is required.");
-        $('.spinner').hide(); 
         return;
     }
     
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alertify.error("Invalid email format.");
+        return;
+    }
+
     if (password === '') {
         alertify.error("Password is required.");
-        $('.spinner').hide();
         return;
     }
     if (password.length < 6) {
         alertify.error("Password must be at least 6 characters.");
-        $('.spinner').hide();
         return;
     }
     if (confirmPassword === '') {
         alertify.error("Confirm Password is required.");
-        $('.spinner').hide();
         return;
     }
     if (password !== confirmPassword) {
         alertify.error("Passwords do not match.");
-        $('.spinner').hide();
         return;
     }
 
     // All validations passed
     var formData = $(this).serializeArray(); 
-    formData.push({ name: 'requestType', value: 'RegisterMember' });
+    formData.push({ name: 'requestType', value: 'RegisterUser' });
     var serializedData = $.param(formData);
 
     $.ajax({
@@ -86,7 +86,6 @@
                 }, 1000);
             } else {
                 alertify.error(response.message); 
-                $('.spinner').hide();
             }
         }
     });
