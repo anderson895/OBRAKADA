@@ -13,6 +13,37 @@ class global_class extends db_connect
     }
 
 
+public function UpdatePassword($currentPassword, $newPassword, $user_id) {
+    $user = $this->check_account($user_id);
+    if (!$user) {
+        return 'User not found';
+    }
+
+    $hashedPassword = $user['user_password'];
+
+    if (!password_verify($currentPassword, $hashedPassword)) {
+        return 'Incorrect current password';
+    }
+
+    $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+    $stmt = $this->conn->prepare("UPDATE user SET user_password = ? WHERE user_id = ?");
+    if (!$stmt) {
+        return 'Database error';
+    }
+
+    $stmt->bind_param("si", $newHashedPassword, $user_id);
+
+    if ($stmt->execute()) {
+        return 'success';
+    } else {
+        return 'Update failed';
+    }
+}
+
+
+
+
 public function check_account($id) {
     $id = intval($id);
 
@@ -21,10 +52,10 @@ public function check_account($id) {
     $result = $this->conn->query($query);
 
     if ($result && $result->num_rows > 0) {
-        return $result->fetch_assoc(); // Return single associative array
+        return $result->fetch_assoc();
     }
 
-    return null; // No user found
+    return null; 
 }
 
 
@@ -92,7 +123,6 @@ public function mark_report_as_seen($user_id) {
     $stmt->bind_param("i", $user_id);
     return $stmt->execute();
 }
-
 
 
 

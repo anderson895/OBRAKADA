@@ -8,12 +8,6 @@ $db = new global_class();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['requestType'])) {
         if ($_POST['requestType'] == 'UpdatePortfolio') {
-
-
-            // echo "<pre>";
-            // print_r($_POST);
-            // echo "</pre>";
-           
            // Get POST values
             $user_id = $_POST['user_id'] ?? null;
             $user_fullname = $_POST['user_fullname'] ?? null;
@@ -26,26 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Upload handling directory
             $uploadDir = '../../../assets/upload/';
-
-            // Initialize image filenames
             $profile_image_filename = null;
             $banner_picture_filename = null;
-
-            // Handle profile_image upload
             if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
                 $profile_image_filename = uniqid('profile_', true) . '.' . strtolower($ext);
                 move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadDir . $profile_image_filename);
             }
-
-            // Handle banner_picture upload
             if (isset($_FILES['banner_picture']) && $_FILES['banner_picture']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['banner_picture']['name'], PATHINFO_EXTENSION);
                 $banner_picture_filename = uniqid('banner_', true) . '.' . strtolower($ext);
                 move_uploaded_file($_FILES['banner_picture']['tmp_name'], $uploadDir . $banner_picture_filename);
             }
-
-            // Call the UpdatePortfolio function with all relevant variables
             $result = $db->UpdatePortfolio(
                 $user_id,
                 $user_fullname,
@@ -72,6 +58,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ]);
             }
             
+        
+        }else if ($_POST['requestType'] == 'UpdatePassword') {
+
+          session_start();
+            $user_id = $_SESSION['user_id'];
+            $currentPassword = $_POST['currentPassword'];
+            $newPassword = $_POST['newPassword'];
+
+            $result = $db->UpdatePassword($currentPassword, $newPassword, $user_id);
+
+            if ($result === 'success') {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Update successful!'
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => $result
+                ]);
+            }
+
         
         }else{
             echo 'requestType NOT FOUND';
