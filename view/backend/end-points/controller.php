@@ -7,69 +7,72 @@ $db = new global_class();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['requestType'])) {
-        if ($_POST['requestType'] == 'RegisterUser') {
+        if ($_POST['requestType'] == 'UpdatePortfolio') {
+
+
+            echo "<pre>";
+            print_r($_POST);
+            echo "</pre>";
            
-            $fullname = $_POST['fullname'];
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-         
+           // Get POST values
+            $user_id = $_POST['user_id'] ?? null;
+            $user_fullname = $_POST['user_fullname'] ?? null;
+            $user_email = $_POST['user_email'] ?? null;
+            $user_contact_info_link = $_POST['user_contact_info_link'] ?? null;
+            $user_phone = $_POST['user_phone'] ?? null;
+            $user_bio = $_POST['user_bio'] ?? null;
+            $user_professional_title = $_POST['user_professional_title'] ?? [];
+            $user_skills = $_POST['user_skills'] ?? [];
 
-            // Call the RegisterMember function
-            $result = $db->RegisterUser($fullname, $email, $password);
+            // Upload handling directory
+            $uploadDir = '../../../assets/upload/';
 
-            // Check the result of the registration attempt
+            // Initialize image filenames
+            $profile_image_filename = null;
+            $banner_picture_filename = null;
+
+            // Handle profile_image upload
+            if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
+                $profile_image_filename = uniqid('profile_', true) . '.' . strtolower($ext);
+                move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadDir . $profile_image_filename);
+            }
+
+            // Handle banner_picture upload
+            if (isset($_FILES['banner_picture']) && $_FILES['banner_picture']['error'] === UPLOAD_ERR_OK) {
+                $ext = pathinfo($_FILES['banner_picture']['name'], PATHINFO_EXTENSION);
+                $banner_picture_filename = uniqid('banner_', true) . '.' . strtolower($ext);
+                move_uploaded_file($_FILES['banner_picture']['tmp_name'], $uploadDir . $banner_picture_filename);
+            }
+
+            // Call the UpdatePortfolio function with all relevant variables
+            $result = $db->UpdatePortfolio(
+                $user_id,
+                $user_fullname,
+                $user_email,
+                $user_professional_title,
+                $user_contact_info_link,
+                $user_phone,
+                $user_bio,
+                $user_skills,
+                $profile_image_filename,
+                $banner_picture_filename
+            );
+
+            // Respond
             if ($result === true) {
-                // Registration successful
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Registration successful!'
-                ]);
-            } else {
-                // If the result is a string (i.e., error message like email already exists)
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => $result // Return the error message from RegisterMember (e.g., 'Email is already registered.')
-                ]);
-            }
-            
-            
-            
-        }else if ($_POST['requestType'] == 'LoginMember') {
-            $email = $_POST['email'];
-            $password = $_POST['password'];
-
-            $result = $db->LoginMember($email, $password);
-
-            if ($result['success']) {
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'Login successful!',
-                    'data' => $result['data'] 
+                    'message' => 'Update successful!'
                 ]);
             } else {
                 echo json_encode([
                     'status' => 'error',
-                    'message' => $result['message'] 
+                    'message' => $result
                 ]);
             }
-        }else if ($_POST['requestType'] == 'Login_Admin') {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            $result = $db->LoginAdmin($username, $password);
-
-            if ($result['success']) {
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'Login successful!',
-                    'data' => $result['data'] 
-                ]);
-            } else {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => $result['message'] 
-                ]);
-            }
+            
+        
         }else{
             echo 'requestType NOT FOUND';
         }
