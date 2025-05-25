@@ -10,13 +10,33 @@
       if (!empty($On_Session['user_professional_title'])) {
           echo '<h1 class="text-2xl mt-2">' . htmlspecialchars($On_Session['user_professional_title']) . '</h1>';
       }
-      ?>
+
+ echo "<pre>";
+    print_r($On_Session); 
+    echo "</pre>";
+?>
+
+
 
      
       <div class="mt-6">
-        <a href="portfolio" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+
+
+        <!-- Link -->
+        <a href="#" class="togglerUpdatePortfolio bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+            data-user_id='<?=$On_Session['user_id']?>'
+            data-user_fullname='<?=$On_Session['user_fullname']?>'
+            data-user_email='<?=$On_Session['user_email']?>'
+            data-user_professional_title='<?=$On_Session['user_professional_title']?>'
+            data-user_contact_info_link='<?=$On_Session['user_contact_info_link']?>'
+            data-user_phone='<?=$On_Session['user_phone']?>'
+            data-user_bio='<?=$On_Session['user_bio']?>'
+            data-skills='<?=$On_Session['skills']?>'
+        >
           Update Portfolio
         </a>
+
+        
       </div>
     </div>
 
@@ -40,3 +60,199 @@
 
   </div>
 </section>
+
+
+<!-- Modal Background Overlay -->
+<div
+  id="portfolioModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center pt-20 sm:pt-24 px-4 sm:px-0 overflow-y-auto z-[9999]"
+  style="display:none;"
+  >
+  <!-- Modal Container -->
+  <div
+    class="bg-white rounded-lg shadow-lg w-full max-w-lg sm:max-w-3xl p-6 sm:p-8 relative text-black
+           max-h-[90vh] overflow-auto"
+  >
+    <form id="portfolioForm" class="space-y-4 text-black" enctype="multipart/form-data">
+      <input type="hidden" name="user_id" id="user_id" />
+
+      <div>
+        <label for="user_fullname" class="block font-semibold mb-1">Full Name:</label>
+        <input
+          type="text"
+          name="user_fullname"
+          id="user_fullname"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label for="user_email" class="block font-semibold mb-1">Email:</label>
+        <input
+          type="email"
+          name="user_email"
+          id="user_email"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+    
+      <div>
+        <label for="user_professional_title" class="block font-semibold mb-1">Professional Title:</label>
+        <div class="flex space-x-2">
+          <input
+            type="text"
+            id="user_professional_title"
+            name="user_professional_title[]"
+            class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter Title"
+          />
+        </div>
+        <button
+            type="button"
+            id="addProfTitleBtn"
+            class="mt-3 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+          >
+            Add More
+          </button>
+      </div>
+
+
+
+      <div>
+        <label for="user_contact_info_link" class="block font-semibold mb-1">Contact Info Link:</label>
+        <input
+          type="text"
+          name="user_contact_info_link"
+          id="user_contact_info_link"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label for="user_phone" class="block font-semibold mb-1">Phone:</label>
+        <input
+          type="text"
+          name="user_phone"
+          id="user_phone"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div>
+        <label for="profile_image" class="block font-semibold mb-1">Profile Image:</label>
+        <input
+          type="file"
+          name="profile_image"
+          id="profile_image"
+          accept="image/*"
+          class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+                 file:rounded-md file:border-0
+                 file:text-sm file:font-semibold
+                 file:bg-blue-50 file:text-blue-700
+                 hover:file:bg-blue-100
+                 cursor-pointer"
+        />
+      </div>
+
+      <div>
+        <label for="banner_picture" class="block font-semibold mb-1">Banner Picture:</label>
+        <input
+          type="file"
+          name="banner_picture"
+          id="banner_picture"
+          accept="image/*"
+          class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4
+                 file:rounded-md file:border-0
+                 file:text-sm file:font-semibold
+                 file:bg-blue-50 file:text-blue-700
+                 hover:file:bg-blue-100
+                 cursor-pointer"
+        />
+      </div>
+
+      <div>
+        <label for="user_bio" class="block font-semibold mb-1">Bio:</label>
+        <textarea
+          name="user_bio"
+          id="user_bio"
+          rows="3"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+      </div>
+
+      <div>
+        <label for="skillInput" class="block font-semibold mb-1">Skills:</label>
+        <div class="flex space-x-2">
+          <input
+            type="text"
+            id="skillInput"
+            class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter a skill"
+          />
+        </div>
+        <button
+            type="button"
+            name="skills[]"
+            id="addSkillBtn"
+            class="mt-3 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+          >
+            Add More
+          </button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-200">
+        <button
+          type="button"
+          id="closeModal"
+          class="px-4 py-2 rounded-md bg-gray-300 hover:bg-gray-400 font-semibold"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<script>
+ $(document).ready(function() {
+  $('.togglerUpdatePortfolio').on('click', function(e) {
+    e.preventDefault();
+
+    const user_id = $(this).data('user_id');
+    const user_fullname = $(this).data('user_fullname');
+    const user_email = $(this).data('user_email');
+    const user_professional_title = $(this).data('user_professional_title');
+    const user_contact_info_link = $(this).data('user_contact_info_link');
+    const user_phone = $(this).data('user_phone');
+    const user_bio = $(this).data('user_bio');
+    const skills = $(this).data('skills');
+
+    $('#user_id').val(user_id);
+    $('#user_fullname').val(user_fullname);
+    $('#user_email').val(user_email);
+    $('#user_professional_title').val(user_professional_title);
+    $('#user_contact_info_link').val(user_contact_info_link);
+    $('#user_phone').val(user_phone);
+    $('#user_bio').val(user_bio);
+    $('#skills').val(skills);
+
+    $('#portfolioModal').fadeIn();
+  });
+
+  $('#closeModal').on('click', function() {
+    $('#portfolioModal').fadeOut();
+  });
+});
+
+</script>
