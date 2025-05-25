@@ -28,7 +28,36 @@ $all_user = $db->get_all_user(); // This is now an array
     <!-- Text Content and Skills -->
     <div class="flex-1">
       <h2 class="text-3xl font-bold mb-4"><?= htmlspecialchars(ucfirst($user['user_fullname'])) ?></h2>
-      <h3 class="text-xl font-semibold mb-2">Position: <?= htmlspecialchars($user['user_position'] ?? 'Not Specified') ?></h3>
+      <?php
+      $profTitlesRaw = $user['user_professional_title'] ?? null;
+
+      // Initialize a variable to hold the plain string of joined titles (for fallback display)
+      $profTitles = 'Not Specified';
+
+      if (!empty($profTitlesRaw)) {
+          // Decode JSON string into an array
+          $titles = json_decode($profTitlesRaw, true);
+
+          if (is_array($titles) && count($titles) > 0) {
+              // Prepare a joined string for the fallback display
+              $profTitles = implode(", ", $titles);
+
+              // Display each title as a styled badge
+              echo '<div class="flex flex-wrap gap-3 mt-4 mb-4">';
+              foreach ($titles as $title) {
+                  echo '<span class="bg-blue-600 bg-opacity-80 px-3 py-1 rounded-full text-sm font-semibold">'
+                      . htmlspecialchars(ucfirst($title)) .
+                      '</span>';
+              }
+              echo '</div>';
+          } else {
+              // If JSON decoding failed or empty array, fallback to raw string escaped
+              $profTitles = htmlspecialchars($profTitlesRaw);
+          }
+      }
+      ?>
+
+
       <p class="mb-6"><?= htmlspecialchars($user['user_bio'] ?? 'No bio available.') ?></p>
 
       <!-- Skills -->
