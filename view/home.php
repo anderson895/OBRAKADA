@@ -7,9 +7,7 @@
 <?php include "components/nav.php";?>
 
 
-<?php include "components/about.php";?>
-
-
+<?php include "components/newsfeed.php";?>
 
 <?php include "components/footer.php";?>
 

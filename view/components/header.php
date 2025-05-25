@@ -1,3 +1,29 @@
+<?php
+session_start();
+include('backend/class.php');
+
+$db = new global_class();
+
+if (isset($_SESSION['user_id'])) {
+    $user_id = intval($_SESSION['user_id']);
+    $On_Session = $db->check_account($user_id);
+
+
+    // echo "<pre>";
+    // print_r($On_Session); 
+    // echo "</pre>";
+    
+    if (!empty($On_Session)) {
+      
+    } else {
+       header('location: ../');
+    }
+} else {
+   header('location: ../');
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
