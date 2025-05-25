@@ -22,6 +22,39 @@
 
 
 
+  $("#loginForm").submit(function (e) { 
+    e.preventDefault();
+    
+
+    $('#btnLoginUser').prop('disabled', true);
+    $('#btnLoginUser').text('Loading...');
+
+    var formData = $(this).serializeArray(); 
+    formData.push({ name: 'requestType', value: 'LoginMember' });
+    var serializedData = $.param(formData);
+
+    $.ajax({
+        type: "POST",
+        url: "backend/end-points/controller.php",
+        data: serializedData,
+        dataType: "json", 
+        success: function (response) {
+            if (response.status === 'success') {
+                alertify.success(response.message);  
+                setTimeout(function () {
+                    window.location.href = "view/home"; 
+                }, 1000);
+            } else {
+                alertify.error(response.message); 
+                $('#btnLoginUser').prop('disabled', false);
+                $('#btnLoginUser').text('LOGIN');
+            }
+        }
+    });
+});
+
+
+
 
 
 
@@ -33,6 +66,8 @@
   $("#registerForm").submit(function (e) { 
     e.preventDefault();
 
+    
+
     var fullname = $("#fullname").val();
     
     var email = $("#email").val();
@@ -41,7 +76,7 @@
 
     // Basic validation
     if (fullname === '') {
-        alertify.error("First Name is required.");
+        alertify.error("Full Name is required.");
         return;
     }
     
@@ -68,6 +103,10 @@
         return;
     }
 
+
+    $('#btnRegisterUser').prop('disabled', true);
+    $('#btnRegisterUser').text('Loading...');
+
     // All validations passed
     var formData = $(this).serializeArray(); 
     formData.push({ name: 'requestType', value: 'RegisterUser' });
@@ -80,12 +119,18 @@
         dataType: "json", 
         success: function (response) {
             if (response.status === 'success') {
-                alertify.success(response.message);  
+                alertify.success(response.message);
+                
+                $('#btnRegisterUser').prop('disabled', false);
+                $('#btnRegisterUser').text('REGISTER');
+                
                 setTimeout(function () {
-                    window.location.href = "login_member"; 
+                    location.reload();
                 }, 1000);
             } else {
                 alertify.error(response.message); 
+                $('#btnRegisterUser').prop('disabled', false);
+                $('#btnRegisterUser').text('REGISTER');
             }
         }
     });

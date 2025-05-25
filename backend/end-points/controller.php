@@ -7,19 +7,15 @@ $db = new global_class();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['requestType'])) {
-        if ($_POST['requestType'] == 'RegisterMember') {
-            $fname = $_POST['first-name'];
-            $mname = $_POST['last-name'];
+        if ($_POST['requestType'] == 'RegisterUser') {
+           
+            $fullname = $_POST['fullname'];
             $email = $_POST['email'];
-            $role = $_POST['role'];
-            $sex = $_POST['sex'];
-            $id_number = $_POST['id_number'];
             $password = $_POST['password'];
-            $confirmpass = $_POST['confirm-password'];
-            $phone = $_POST['phone'];
+         
 
             // Call the RegisterMember function
-            $result = $db->RegisterMember($fname, $mname, $email, $phone, $role, $sex, $id_number, $password);
+            $result = $db->RegisterUser($fullname, $email, $password);
 
             // Check the result of the registration attempt
             if ($result === true) {

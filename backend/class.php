@@ -17,7 +17,7 @@ class global_class extends db_connect
 
     public function LoginMember($email, $password)
     {
-        $query = $this->conn->prepare("SELECT * FROM `user_member` WHERE `email` = ? AND `status` != '2'");
+        $query = $this->conn->prepare("SELECT * FROM `user` WHERE `user_email` = ? AND `user_status` = '1'");
         $query->bind_param("s", $email);
     
         if ($query->execute()) {
@@ -25,13 +25,12 @@ class global_class extends db_connect
             if ($result->num_rows > 0) {
                 $user = $result->fetch_assoc();
     
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user['user_password'])) {
                     if (session_status() == PHP_SESSION_NONE) {
                         session_start();
                     }
     
-                    $_SESSION['id'] = $user['id'];
-                    $_SESSION['user_type'] = "member";
+                    $_SESSION['user_id'] = $user['user_id'];
                     $query->close();
                     return ['success' => true, 'data' => $user];
                 } else {
@@ -53,10 +52,10 @@ class global_class extends db_connect
 
 
 
-    public function RegisterMember($fname, $mname, $email, $phone, $role, $sex, $id_number, $password)
+    public function RegisterUser($fullname, $email, $password)
     {
         // Step 1: Check if the email already exists in the database
-        $query = $this->conn->prepare("SELECT COUNT(*) FROM `user_member` WHERE `email` = ?");
+        $query = $this->conn->prepare("SELECT COUNT(*) FROM `user` WHERE `user_email` = ?");
         if (!$query) {
             return false; // Query preparation failed
         }
@@ -70,15 +69,13 @@ class global_class extends db_connect
         if ($emailCount > 0) {
             return "Email is already registered."; // Or you can return a specific error code/message
         }
-    
-        // Step 2: If email doesn't exist, proceed with registration
-        $fullname = $fname . ' ' . $mname;
+
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     
         $query = $this->conn->prepare("
-            INSERT INTO `user_member`
-                (`fullname`, `email`, `phone`, `password`, `role`, `sex`, `id_number`)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO `user`
+                (`user_fullname`, `user_email`, `user_password`)
+            VALUES (?, ?, ?)
         ");
     
         if (!$query) {
@@ -86,14 +83,10 @@ class global_class extends db_connect
         }
     
         $query->bind_param(
-            "sssssss",
-            $fullname,
+            "sss",
+            $fullname, 
             $email,
-            $phone,
-            $hashedPassword,
-            $role,
-            $sex,
-            $id_number
+            $hashedPassword
         );
     
         $result = $query->execute();
@@ -111,7 +104,7 @@ public function check_account($id) {
 
     $id = intval($id);
 
-    $query = "SELECT * FROM user_member WHERE id = $id";
+    $query = "SELECT * FROM user WHERE user_id = $id";
 
     $result = $this->conn->query($query);
 

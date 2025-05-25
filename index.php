@@ -9,6 +9,9 @@
   <!-- Google Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.css" integrity="sha512-MpdEaY2YQ3EokN6lCD6bnWMl5Gwk7RjBbpKLovlrH6X+DRokrPRAF3zQJl1hZUiLXfo2e9MrOt+udOnHCAmi5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
@@ -32,9 +35,7 @@
 
             Together, ObraKada symbolizes a space where your art meets your circle of friends a digital neighborhood of creativity, connection, and collaboration.
             </p>
-            <button class="border border-indigo-400 text-indigo-400 px-6 py-2 rounded-full hover:bg-indigo-500 hover:text-white transition duration-300 ease-in-out shadow-md">
-            Know More
-            </button>
+            
         </div>
     </div>
 
@@ -54,41 +55,41 @@
         <!-- Login Form -->
             <form id="loginForm" class="space-y-4">
             <div class="relative">
-                <input type="email" placeholder="Enter your email address"
-                class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                <input type="email" placeholder="Enter your email address" name="email"
+                class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                 <span class="material-icons absolute right-3 top-2.5 text-gray-400">email</span>
             </div>
             <div class="relative">
-                <input type="password" placeholder="Enter password"
-                class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                <input type="password" placeholder="Enter password" name="password"
+                class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                 <span class="material-icons absolute right-3 top-2.5 text-gray-400">lock</span>
             </div>
-            <button class="w-full bg-black text-white py-2 rounded-full font-semibold hover:bg-gray-800">LOGIN</button>
+            <button type="submit" id="btnLoginUser" class="w-full bg-black text-white py-2 rounded-full font-semibold hover:bg-gray-800">LOGIN</button>
             </form>
 
             <!-- Register Form -->
            <form id="registerForm" class="space-y-4 hidden">
                 <div class="relative">
                     <input id="fullname" name="fullname" type="text" placeholder="Full Name"
-                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                     <span class="material-icons absolute right-3 top-2.5 text-gray-400">person</span>
                 </div>
                 <div class="relative">
                     <input id="email" name="email" type="email" placeholder="Enter your email address"
-                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                     <span class="material-icons absolute right-3 top-2.5 text-gray-400">email</span>
                 </div>
                 <div class="relative">
                     <input id="password" name="password" type="password" placeholder="Create password"
-                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                     <span class="material-icons absolute right-3 top-2.5 text-gray-400">lock</span>
                 </div>
                 <div class="relative">
                     <input id="confirm_password" type="password" placeholder="Confirm password"
-                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none" required />
+                    class="w-full pr-10 border-b border-gray-400 py-2 focus:outline-none"  />
                     <span class="material-icons absolute right-3 top-2.5 text-gray-400">lock</span>
                 </div>
-                <button class="w-full bg-black text-white py-2 rounded-full font-semibold hover:bg-gray-800">REGISTER</button>
+                <button type="submit" id="btnRegisterUser" class="w-full bg-black text-white py-2 rounded-full font-semibold hover:bg-gray-800">REGISTER</button>
                 </form>
 
 
