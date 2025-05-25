@@ -1,65 +1,87 @@
+  <?php 
+  
+  if(isset($_GET['user_id'])){
+  $viewing_user_id=$_GET['user_id'];
+  $view = $db->check_account($viewing_user_id);
+  
+  }
+
+
+
+  ?>
+  
+  
   <!-- Hero Section -->
-<section class="bg-gray-800 text-white py-16 px-4">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
-    
+<section class="bg-gray-900 text-white py-20 px-6">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+
     <!-- Text Content -->
-    <div class="flex-1">
-      <h3 class="text-xl">Hi! I'm</h3>
-      <h1 class="text-4xl font-bold"><?=ucfirst($On_Session['user_fullname']);?></h1>
+    <div class="flex-1 space-y-4">
+      <h3 class="text-lg text-gray-400">Hi! I'm</h3>
+      <h1 class="text-5xl font-extrabold tracking-tight"><?= ucfirst($view['user_fullname']); ?></h1>
+      
       <?php 
-      if (!empty($On_Session['user_professional_title'])) {
-          echo '<h1 class="text-2xl mt-2">' . htmlspecialchars($On_Session['user_professional_title']) . '</h1>';
+      if (!empty($view['user_professional_title'])) {
+          $titles = json_decode($view['user_professional_title'], true);
+          if (is_array($titles)) {
+              echo '<div class="flex flex-wrap gap-3 mt-4">';
+              foreach ($titles as $title) {
+                  echo '<span class="bg-blue-600 bg-opacity-80 px-3 py-1 rounded-full text-sm font-semibold">' . htmlspecialchars(ucfirst($title)) . '</span>';
+              }
+              echo '</div>';
+          }
       }
+      ?>
 
-//  echo "<pre>";
-//     print_r($On_Session); 
-//     echo "</pre>";
-?>
+      <p class="mt-6 max-w-md text-gray-300"><?= nl2br(htmlspecialchars($view['user_bio'] ?? '')); ?></p>
+
+    
+
+      <div class="mt-8">
+          <?php  if($view['user_id']==$_SESSION['user_id']){ 
+            
 
 
-
-     
-      <div class="mt-6">
-
-
-        <!-- Link -->
-        <a href="#" class="togglerUpdatePortfolio bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
-            data-user_id='<?=$On_Session['user_id']?>'
-            data-user_fullname='<?=$On_Session['user_fullname']?>'
-            data-user_email='<?=$On_Session['user_email']?>'
-            data-user_professional_title='<?=$On_Session['user_professional_title']?>'
-            data-user_contact_info_link='<?=$On_Session['user_contact_info_link']?>'
-            data-user_phone='<?=$On_Session['user_phone']?>'
-            data-user_bio='<?=$On_Session['user_bio']?>'
-            data-skills='<?=$On_Session['skills']?>'
+          ?>
+        <a href="#" 
+          class="togglerUpdatePortfolio inline-block bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-3 px-6 rounded-lg shadow-lg"
+          data-user_id='<?= $view['user_id'] ?>'
+          data-user_fullname='<?= $view['user_fullname'] ?>'
+          data-user_email='<?= $view['user_email'] ?>'
+          data-user_professional_title='<?= $view['user_professional_title'] ?>'
+          data-user_contact_info_link='<?= $view['user_contact_info_link'] ?>'
+          data-user_phone='<?= $view['user_phone'] ?>'
+          data-user_bio='<?= $view['user_bio'] ?>'
+          data-skills='<?= $view['skills'] ?>'
         >
           Update Portfolio
         </a>
+        <?php }else{
 
-        
+          $record_viewing = $db->record_viewing($_SESSION['user_id'],$viewing_user_id);
+
+        }?>
       </div>
+    
     </div>
 
-
-   <?php 
-    if (!empty($On_Session['user_profile_pict'])) {
+    <!-- Profile Picture -->
+    <?php 
+    if (!empty($view['user_profile_pict'])) {
         echo '
-        <div class="flex-shrink-0">
-            <img src="../assets/upload/' . htmlspecialchars($On_Session['user_profile_pict']) . '" alt="Profile Picture" class="rounded-full w-48 h-48 object-cover" />
+        <div class="flex-shrink-0 rounded-full overflow-hidden w-52 h-52 shadow-lg border-4 border-blue-600">
+            <img src="../assets/upload/' . htmlspecialchars($view['user_profile_pict']) . '" alt="Profile Picture" class="w-full h-full object-cover" />
         </div>';
     } else {
         echo '
-        <div class="flex-shrink-0 flex items-center justify-center bg-gray-300 rounded-full w-48 h-48 text-5xl font-bold text-white">
-            ' . strtoupper(substr($On_Session["user_fullname"], 0, 1)) . '
+        <div class="flex-shrink-0 flex items-center justify-center bg-blue-600 rounded-full w-52 h-52 text-6xl font-extrabold text-white shadow-lg border-4 border-blue-500">
+            ' . strtoupper(substr($view["user_fullname"], 0, 1)) . '
         </div>';
     }
     ?>
-
-
-  
-
   </div>
 </section>
+
 
 
 <!-- Modal Background Overlay -->

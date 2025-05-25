@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST['requestType'] == 'UpdatePortfolio') {
 
 
-            echo "<pre>";
-            print_r($_POST);
-            echo "</pre>";
+            // echo "<pre>";
+            // print_r($_POST);
+            // echo "</pre>";
            
            // Get POST values
             $user_id = $_POST['user_id'] ?? null;

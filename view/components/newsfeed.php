@@ -34,18 +34,27 @@ $all_user = $db->get_all_user(); // This is now an array
       <!-- Skills -->
       <h2 class="text-2xl font-bold mb-4 mt-8">My Skills</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
-          <p>Skilled in HTML, CSS, and responsive design principles.</p>
-        </div>
-        <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
-          <p>Experience with PHP, MySQL, and server-side logic.</p>
-        </div>
-        <div class="bg-gray-100 p-4 rounded-lg shadow-sm">
-          <p>Familiar with JavaScript, Tailwind CSS, and modern frameworks.</p>
-        </div>
+        <?php
+        if (!empty($user['skills'])) {
+            $skills = json_decode($user['skills'], true);
+            if (is_array($skills)) {
+                foreach ($skills as $skill) {
+                    echo '
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                      <p class="text-gray-800 font-medium">' . htmlspecialchars($skill) . '</p>
+                    </div>';
+                }
+            } else {
+                echo '<p class="text-gray-500 col-span-full">Skills data is invalid.</p>';
+            }
+        } else {
+            echo '<p class="text-gray-500 col-span-full">No skills listed.</p>';
+        }
+        ?>
       </div>
 
-      <a href="portfolio" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
+
+      <a href="portfolio?user_id=<?=$user['user_id']?>" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
         View Portfolio
       </a>
     </div>

@@ -7,7 +7,7 @@
         <span class="material-icons">home</span>
         <span>Home</span>
       </a>
-      <a href="portfolio" class="text-white hover:text-blue-400 flex items-center space-x-1">
+      <a href="portfolio?user_id=<?=$user_id?>" class="text-white hover:text-blue-400 flex items-center space-x-1">
         <span class="material-icons">person</span>
         <span>Portfolio</span>
       </a>

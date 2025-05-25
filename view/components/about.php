@@ -6,8 +6,8 @@
    <div class="flex-shrink-0">
       <img 
         src="<?php 
-          echo !empty($On_Session['user_banner']) 
-            ? '../assets/upload/' . htmlspecialchars($On_Session['user_banner']) 
+          echo !empty($view['user_banner']) 
+            ? '../assets/upload/' . htmlspecialchars($view['user_banner']) 
             : '../assets/img/no-image.png'; 
         ?>" 
         alt="Profile image" 
@@ -25,22 +25,19 @@
       <div>
         <ul class="text-base space-y-1 mt-2">
           <li><strong>Contact Link:</strong> 
-            <a href="<?= htmlspecialchars($On_Session['user_contact_info_link']); ?>" 
+            <a href="<?= htmlspecialchars($view['user_contact_info_link']); ?>" 
                class="text-blue-600 hover:underline" 
-               target="_blank"><?= htmlspecialchars($On_Session['user_contact_info_link']); ?></a></li>
-          <li><strong>Phone:</strong> <?= htmlspecialchars($On_Session['user_phone']); ?></li>
+               target="_blank"><?= htmlspecialchars($view['user_contact_info_link']); ?></a></li>
+          <li><strong>Phone:</strong> <?= htmlspecialchars($view['user_phone']); ?></li>
           <li><strong>Email:</strong> 
-            <a href="mailto:<?= htmlspecialchars($On_Session['user_email']); ?>" 
-               class="text-blue-600 hover:underline"><?= htmlspecialchars($On_Session['user_email']); ?></a></li>
+            <a href="mailto:<?= htmlspecialchars($view['user_email']); ?>" 
+               class="text-blue-600 hover:underline"><?= htmlspecialchars($view['user_email']); ?></a></li>
         </ul>
       </div>
 
-      <p class="text-gray-700 text-base"><?= ucfirst(htmlspecialchars($On_Session['user_bio'])); ?></p>
+      <p class="text-gray-700 text-base"><?= ucfirst(htmlspecialchars($view['user_bio'])); ?></p>
 
-      <a href="#projects" 
-         class="inline-block text-sm text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
-        View My Skills
-      </a>
+    
     </div>
   </div>
 </section>

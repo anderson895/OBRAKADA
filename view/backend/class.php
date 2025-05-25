@@ -49,6 +49,25 @@ public function get_all_user()
 
 
 
+public function record_viewing($viewed, $view_by)
+{
+    $stmt = $this->conn->prepare("INSERT INTO view_logs (viewed_id, view_by_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $view_by,$viewed); 
+
+    $stmt->execute();
+    if ($stmt->affected_rows > 0) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    $stmt->close();
+    return $result;
+}
+
+
+
+
+
 
 
 
@@ -64,11 +83,8 @@ public function UpdatePortfolio(
     $profile_image_filename,
     $banner_picture_filename
 ) {
-    // Convert arrays to JSON or comma-separated strings
-    $titles = json_encode($user_professional_title); // or implode(',', $user_professional_title);
-    $skills = json_encode($user_skills); // or implode(',', $user_skills);
-
-    // Build the base SQL and dynamic fields
+    $titles = json_encode($user_professional_title); 
+    $skills = json_encode($user_skills);
     $sql = "UPDATE `user` SET 
                 `user_fullname` = ?, 
                 `user_email` = ?, 

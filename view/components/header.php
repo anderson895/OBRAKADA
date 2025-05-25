@@ -6,12 +6,12 @@ $db = new global_class();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = intval($_SESSION['user_id']);
-    $On_Session = $db->check_account($user_id);
+    $view = $db->check_account($user_id);
 
 
    
     
-    if (!empty($On_Session)) {
+    if (!empty($view)) {
       
     } else {
        header('location: ../');
