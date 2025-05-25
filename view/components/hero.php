@@ -135,7 +135,7 @@
           id="addProfTitleBtn"
           class="mt-3 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold"
         >
-          Add More
+          Add Title
         </button>
 
 
@@ -219,7 +219,7 @@
         id="addSkillBtn"
         class="mt-3 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold"
       >
-        Add More
+        Add Skills
       </button>
 
       <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-200">
