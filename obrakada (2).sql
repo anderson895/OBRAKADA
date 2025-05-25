@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2025 at 05:58 PM
+-- Generation Time: May 25, 2025 at 06:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `user_fullname`, `user_email`, `user_password`, `user_status`, `user_profile_pict`, `user_professional_title`, `user_contact_info_link`, `user_phone`, `user_bio`, `skills`, `user_banner`) VALUES
 (4, 'joshua padilla', 'joshua@gmail.com', '$2y$10$Jia2Ip3xMNsSaXf0.vLv0.S4X2gUSt4bAYI.Z/gCf.vyky7nSqa3G', 1, 'profile_68332bcc8c6790.38338186.jpg', '[]', '', '', '', '[]', NULL),
-(5, 'juan dela cruz', 'juan@gmail.com', '$2y$10$fsgfmMSl.IRxM2E7.QtXLuvtgcC8eiGfXJIl0HdQ9YlbsZ/jOT5mG', 1, 'profile_68332b61aa24a4.83477233.png', '[\"web developer\"]', 'https://www.facebook.com/juan.dela.cruz.352811', '09454454744', 'loremloremloremloremloremloremloremloremloremloremloremlorem', '[\"PHP\",\"Java\",\"C#\"]', 'banner_68331e4ba7a248.19478596.jpg');
+(5, 'juan dela cruz', 'juan@gmail.com', '$2y$10$fsgfmMSl.IRxM2E7.QtXLuvtgcC8eiGfXJIl0HdQ9YlbsZ/jOT5mG', 1, 'profile_68332b61aa24a4.83477233.png', '[\"web developer\"]', 'https://www.facebook.com/juan.dela.cruz.352811', '09454454744', 'loremloremloremloremloremloremloremloremloremloremloremlorem', '[\"PHP\",\"Java\",\"C#\"]', 'banner_68331e4ba7a248.19478596.jpg'),
+(6, 'angela denise', 'angenise24@gmail.com', '$2y$10$YgUiqt7yrlJCZ6BEgFrN8eBy.frq5.Typfo0zJWA53CAzQusUKQ7S', 1, 'profile_68333fd5c54a54.47396943.jpg', '[]', '', '', '', '[]', 'banner_68333fd5c56fe7.23090911.jpg');
 
 -- --------------------------------------------------------
 
@@ -72,7 +73,8 @@ INSERT INTO `view_logs` (`view_id`, `viewed_id`, `view_by_id`, `view_date`, `vie
 (8, 5, 4, '2025-05-25 15:23:04', 1),
 (9, 5, 4, '2025-05-25 15:23:04', 1),
 (10, 4, 5, '2025-05-25 15:25:43', 0),
-(11, 4, 5, '2025-05-25 15:55:39', 0);
+(11, 4, 5, '2025-05-25 15:55:39', 0),
+(12, 5, 6, '2025-05-25 16:05:50', 0);
 
 --
 -- Indexes for dumped tables
@@ -98,13 +100,13 @@ ALTER TABLE `view_logs`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `view_logs`
 --
 ALTER TABLE `view_logs`
-  MODIFY `view_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `view_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
